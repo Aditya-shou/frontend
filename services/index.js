@@ -19,7 +19,7 @@ export const sendCode = async (Code, Language, customInput) => {
     body: JSON.stringify(formData)
   });
   const result = await response.json();
-  console.log(result)
+  //console.log(result)
   return result;
 };
 
@@ -36,7 +36,7 @@ export const getScrapeData = async(url)=>{
     body: JSON.stringify(formData)
   });
   const result = await response.text();
-  console.log(result)
+  //console.log(result)
   return result;
 }
 
@@ -49,7 +49,7 @@ export const initializeWebSocket = (socket, setSocket, room, code) => {
   });
 
   newSocket.on('connect', () => {
-    console.log('WebSocket connected:', newSocket.id);
+    //console.log('WebSocket connected:', newSocket.id);
     setSocket(newSocket);
 
     if (room) {
@@ -59,7 +59,7 @@ export const initializeWebSocket = (socket, setSocket, room, code) => {
   });
 
   newSocket.on('disconnect', () => {
-    console.log('WebSocket disconnected');
+    //console.log('WebSocket disconnected');
     setSocket(null);
   });
 };
