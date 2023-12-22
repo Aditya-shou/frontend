@@ -1,9 +1,12 @@
+// home.js
 import React, { useState, useEffect } from 'react';
-import {Header, FileEditor, Output, ThemeDropdown} from '../components'
-import { defineTheme } from "../lib/defineTheme";
-import { languageOptions } from "../constants/languageOptions";
-import {sendCode} from "../services"
+import { Header, FileEditor, Output, Scrapper, Input} from '../components';
+import { defineTheme } from '../lib/defineTheme';
+import { languageOptions } from '../constants/languageOptions';
+import { sendCode, initializeWebSocket } from '../services';
 import { useCookies } from 'react-cookie';
+import {  handleSubmit,handleThemeChange, onSelectChange, onChange } from '../utils'
+
 const cppDefault = `#include<iostream>
 using namespace std;
 
@@ -11,83 +14,80 @@ int main(){
   //Type your Code here
 } 
 `;
-export default function home(){
-  const [cookies, setCookie] = useCookies(['code']);
+export default function Home() {
+  const [cookies, setCookie] = useCookies(['code'],['room']);
   const [code, setCode] = useState(cppDefault);
+  const [output, setOutput] = useState();
+  const [language, setLanguage] = useState(languageOptions[0]);
+  const [error, setError] = useState(false);
+  const [theme, setTheme] = useState('oceanic-next');
+  const [socket, setSocket] = useState(null);
+  const [room, setRoom] = useState('');
+  const [customInput, setCustomInput ] = useState('')
+  useEffect(() => {
+    defineTheme('oceanic-next').then((_) =>
+      setTheme({ value: 'oceanic-next', label: 'Oceanic Next' })
+    );
+  }, []);
   useEffect(() => {
     const storedCode = cookies.code;
-
     if (storedCode) {
       setCode(storedCode);
     }
+    if (socket) {
+      socket.on('codeUpdate', ({ code: updatedCode, sender }) => {
+        console.log(`Received code update from ${sender}:`, updatedCode);
+        setCode(updatedCode);
+        //console.log(updatedCode)
+      });
+    }
   }, [cookies.code]);
-  const [output, setOutput] = useState();
-  const [language, setLanguage] = useState(languageOptions[0]); 
-  const[error,setError]=useState(false);
-  const [theme, setTheme] = useState("oceanic-next");
-  const handleSubmit = async () => {
-    setError(false);
-    if(!code || !language){
-      setError(true)
-      return
-    }
-    const response = await sendCode(code, language);
-        //console.log(response)
-    setOutput(response);
-  };
-  function handleThemeChange(th) {
-    const theme = th;
-    console.log("theme...", theme);
+
   
-    if (["light", "vs-dark"].includes(theme.value)){
-      setTheme(theme);
-    } else if (theme.value) {
-      defineTheme(theme.value).then((_) => setTheme(theme));
-    }
-  }
-  useEffect(() => {
-    defineTheme("oceanic-next").then((_) =>
-      setTheme({ value: "oceanic-next", label: "Oceanic Next" })
-    );
-  }, []); 
-  const onSelectChange = (sl) => {
-    console.log("selected Option...", sl);
-    setLanguage(sl);
-  };
-  const onChange = (action, data) => {
-    switch (action) {
-      case "code": {
-        setCode(data);
-        setCookie('code', data, { path: '/', maxAge: 24 * 60 * 60 });
-        break;
-      }
-      default: {
-        console.warn("case not handled!", action, data);
-      }
-    }
-  };
   return (
-    <div className='min-h-screen'>
-      <Header
-        onSelectChange={onSelectChange}
-        handleThemeChange={handleThemeChange}
-        theme={theme}
-        handleSubmit={handleSubmit}
-        code = {code}
-      />
-      <div className='grid grid-cols-1 lg:grid-cols-12 gap-12'>
-        <div className='lg:col-span-5 col-span-1 lg:mx-5 lg:my-2'>
+    <div className="min-h-screen">
+      <div className='position:fixed w-full top-0 left-0 '>
+        <Header
+          onSelectChange={(sl) => onSelectChange(sl, setLanguage)}
+          handleThemeChange={(th) =>handleThemeChange(th, setTheme)}
+          theme={theme}
+          handleSubmit={() => handleSubmit(setError, sendCode, code, language, setOutput, socket, room, customInput)}
+          onChange = {onChange}
+          initializeWebSocket={()=>initializeWebSocket(socket, setSocket, room, code)}
+          room = {room}
+          setRoom={setRoom}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-2 ">
+        <div className="position: sticky">
+          <Scrapper/>
         </div>
-        <div className="lg:col-span-7 col-span-1">
-          <div className="lg:sticky relative top-8 lg:my-2 lg:mx-5">
-              <FileEditor code={cookies.code} language={language?.value} theme={theme.value} onChange={onChange} />   
+        <div className="position:fixed lg:col-span-1 ">
+          <div className="position:fixed top-5 lg:my-2 lg:mx-5 ">
+            <FileEditor
+              code={code}
+              language={language?.value}
+              theme={theme.value}
+              onChange={(action, data) => onChange(action, data, setCode, setCookie, socket, room)}
+            />
+            <div className='grid grid-cols-2'>
+              <div className="w-full">
+                <Output output={output} />
+              </div>
+              <div className='w-full mx-4 mt-6 p-2'>
+                <Input customInput={customInput} setCustomInput={setCustomInput}/>
+              </div>
+                
+            <div>
+                
+              </div>
+            </div>
+            
           </div>
-          <div className='lg:sticky relative top-8 lg:my-2 lg:mx-5'>
-              <Output output={output}/>
-          </div> 
+          
         </div>
       </div>
-      
     </div>
   );
 }

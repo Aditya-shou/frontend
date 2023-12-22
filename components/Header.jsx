@@ -6,23 +6,33 @@ import "react-toastify/dist/ReactToastify.css";
 import LanguageDropdown from './LanguageDropdown';
 import ThemeDropdown from './ThemeDropdown';
 
-const Header = ({ onSelectChange, handleThemeChange, theme, handleSubmit }) => {
+
+const Header = ({ onSelectChange, handleThemeChange, theme, handleSubmit,initializeWebSocket,room,setRoom }) => {
   return (
     <nav className='w-full flex md:justify-center justify-between items-center p-2 blue-glassmorphism'>
       <div className="md:flex-[1.0] flex-initial justify-center items-center">
         <Image src={logo} alt="logo" className="w-32 cursor-pointer" />
       </div>
       <ul  className="text-white md:flex hidden justify-between items-center flex-initial ">
-        <li>
-          <button > 
+        <li className='flex items-center'>
+          <button onClick={initializeWebSocket} className='mx-2'> 
             <span className='text-black transition duration-500 transform hover:-translate-y-1 inline-block bg-blue-600 text-lg font-medium rounded-full text-white px-8 py-1 cursor-pointer'>
-              Upload File
+              Enter Room
             </span>
           </button>
+            <textarea 
+              rows="1"
+              placeholder={`Enter Room No.`} 
+              value={room} 
+              onChange={(e) => setRoom(e.target.value)} 
+              className="text-black w-1/2 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)]  hover:shadow transition duration-200 bg-white "
+              >
+            </textarea>
+          
         </li>
         <li className="py-2 mx-2">
           <button onClick={handleSubmit}>
-            <span className='text-black transition duration-500 transform hover:-translate-y-1 inline-block bg-blue-600 text-lg font-medium rounded-full text-white px-8 py-1 cursor-pointer'>
+            <span className='transition duration-500 transform hover:-translate-y-1 inline-block bg-blue-600 text-lg font-medium rounded-full text-white px-8 py-1 cursor-pointer'>
               Run
             </span>
           </button>

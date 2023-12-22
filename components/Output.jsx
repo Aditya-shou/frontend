@@ -11,7 +11,7 @@ const Output = ({output}) => {
             Output
           </h1>
           <div
-        className={`w-1/2 h-56 bg-[#1e293b] rounded-md text-white font-normal text-sm overflow-y-auto ${
+        className={`w-full h-56 bg-[#1e293b] rounded-md text-white font-normal text-sm overflow-y-auto ${
           isError ? "text-red-500" : "text-white"
         }`}
         dangerouslySetInnerHTML={{ __html: result }}
