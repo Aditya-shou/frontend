@@ -39,6 +39,7 @@ const Scraper = () => {
               rows="1"
               placeholder={`Enter a Link`} 
               value={link} 
+              style={{ resize: "none" }}
               onChange={handleInputChange} 
               className=" position: center text-black w-3/4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)]  hover:shadow transition duration-200 bg-white mt-5 mx-5 "
               >
@@ -47,10 +48,26 @@ const Scraper = () => {
           >Submit</button>
         </>
       ) : (
-        <div className='lg:col-span-1 overflow-scroll mt-1'
+      <div>
+        <div className='lg:col-span-1  mt-1 mx-3'
           dangerouslySetInnerHTML={{ __html: htmlContent }}
           style={{ fontSize: '18px' }}
-        ></div>
+        > 
+        </div> 
+        <div>
+        <textarea 
+              rows="1"
+              placeholder={`Enter a Link`} 
+              value={link} 
+              style={{ resize: "none" }}
+              onChange={handleInputChange} 
+              className=" position: center text-black w-3/4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)]  hover:shadow transition duration-200 bg-white mt-5 mx-5 "
+              >
+            </textarea>
+          <button onClick={handleButtonClick} className='transition duration-500 transform hover:-translate-y-1 inline-block bg-blue-600 text-lg font-medium rounded-full text-white px-8 py-1 cursor-pointer'
+          >Submit</button>
+        </div> 
+        </div>  
       )}
     </div>
   );

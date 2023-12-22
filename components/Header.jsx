@@ -24,6 +24,7 @@ const Header = ({ onSelectChange, handleThemeChange, theme, handleSubmit,initial
               rows="1"
               placeholder={`Enter Room No.`} 
               value={room} 
+              style={{ resize: "none" }}
               onChange={(e) => setRoom(e.target.value)} 
               className="text-black w-1/2 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)]  hover:shadow transition duration-200 bg-white "
               >

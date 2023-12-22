@@ -40,7 +40,7 @@ export const getScrapeData = async(url)=>{
   return result;
 }
 
-export const initializeWebSocket = (socket, setSocket, room, code) => {
+export const initializeWebSocket = (socket, setSocket, room, code, toast) => {
   if (socket) {
     socket.disconnect();
   }
@@ -62,4 +62,15 @@ export const initializeWebSocket = (socket, setSocket, room, code) => {
     //console.log('WebSocket disconnected');
     setSocket(null);
   });
+  if(room){
+    toast.success(`Entered room: ${room}`, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
 };

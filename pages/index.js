@@ -1,4 +1,3 @@
-// home.js
 import React, { useState, useEffect } from 'react';
 import { Header, FileEditor, Output, Scrapper, Input} from '../components';
 import { defineTheme } from '../lib/defineTheme';
@@ -6,6 +5,7 @@ import { languageOptions } from '../constants/languageOptions';
 import { sendCode, initializeWebSocket } from '../services';
 import { useCookies } from 'react-cookie';
 import {  handleSubmit,handleThemeChange, onSelectChange, onChange } from '../utils'
+import { ToastContainer, toast } from "react-toastify";
 
 const cppDefault = `#include<iostream>
 using namespace std;
@@ -34,18 +34,37 @@ export default function Home() {
     if (storedCode) {
       setCode(storedCode);
     }
-    if (socket) {
-      socket.on('codeUpdate', ({ code: updatedCode, sender }) => {
-        console.log(`Received code update from ${sender}:`, updatedCode);
-        setCode(updatedCode);
-        //console.log(updatedCode)
-      });
-    }
-  }, [cookies.code]);
+     if (socket) {
+    socket.on('codeUpdate', ({ code: updatedCode, sender }) => {
+      console.log(`Received code update from ${sender}:`, updatedCode);
+      setCode(updatedCode);
+    });
 
-  
+    socket.on('InitializeCode', (data) => {
+      console.log(`Received code initialization request from ${data.requester}`);
+      try {
+        const currentCode = cookies.code;
+        socket.emit('codeUpdate', { code: currentCode, sender: socket.id });
+      } catch (error) {
+        console.error('Error getting or sending code:', error);
+      }
+    });
+  }
+}, [cookies.code, socket]);
+
   return (
     <div className="min-h-screen">
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className='position:fixed w-full top-0 left-0 '>
         <Header
           onSelectChange={(sl) => onSelectChange(sl, setLanguage)}
@@ -53,14 +72,14 @@ export default function Home() {
           theme={theme}
           handleSubmit={() => handleSubmit(setError, sendCode, code, language, setOutput, socket, room, customInput)}
           onChange = {onChange}
-          initializeWebSocket={()=>initializeWebSocket(socket, setSocket, room, code)}
+          initializeWebSocket={()=>initializeWebSocket(socket, setSocket, room, code, toast)}
           room = {room}
           setRoom={setRoom}
         />
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-2 ">
-        <div className="position: sticky">
+        <div className="position: sticky overflow-scroll">
           <Scrapper/>
         </div>
         <div className="position:fixed lg:col-span-1 ">
@@ -77,8 +96,7 @@ export default function Home() {
               </div>
               <div className='w-full mx-4 mt-6 p-2'>
                 <Input customInput={customInput} setCustomInput={setCustomInput}/>
-              </div>
-                
+              </div> 
             <div>
                 
               </div>
