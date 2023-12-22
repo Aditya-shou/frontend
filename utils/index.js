@@ -15,7 +15,7 @@ export const handleSubmit = async ( setError, sendCode, code, language, setOutpu
 
 export const handleThemeChange = (th, setTheme) => {
   const theme = th;
-  console.log('theme...', theme);
+  //console.log('theme...', theme);
 
   if (['light', 'vs-dark'].includes(theme.value)) {
     setTheme(theme);
@@ -25,7 +25,7 @@ export const handleThemeChange = (th, setTheme) => {
 };
 
 export const onSelectChange = (sl, setLanguage) => {
-  console.log('selected Option...', sl);
+  //console.log('selected Option...', sl);
   setLanguage(sl);
 };
 
