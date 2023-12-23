@@ -65,7 +65,7 @@ export default function Home() {
         draggable
         pauseOnHover
       />
-      <div className='position:fixed w-full top-0 left-0 '>
+      <div className='position:fixed w-full top-0 left-0'>
         <Header
           onSelectChange={(sl) => onSelectChange(sl, setLanguage)}
           handleThemeChange={(th) =>handleThemeChange(th, setTheme)}
@@ -79,10 +79,10 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-2 ">
-        <div className="position: sticky overflow-scroll">
+        <div className='position: sticky overflow-auto'>
           <Scrapper/>
         </div>
-        <div className="position:fixed lg:col-span-1 ">
+        <div className="position:fixed lg:col-span-1 overflow-auto">
           <div className="position:fixed top-5 lg:my-2 lg:mx-5 ">
             <FileEditor
               code={code}
