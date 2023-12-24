@@ -9,7 +9,7 @@ import ThemeDropdown from './ThemeDropdown';
 
 const Header = ({ onSelectChange, handleThemeChange, theme, handleSubmit,initializeWebSocket,room,setRoom }) => {
   return (
-    <nav className='w-full flex md:justify-center justify-between items-center p-2 rounded bg-[#001f3f] '>
+    <nav className='w-full flex md:justify-center justify-between items-center p-2 rounded-t-none rounded-b-lg bg-[#001f3f]'>
       <div className="md:flex-[1.0] flex-initial justify-center items-center">
         <Image src={logo} alt="logo" className="w-32 cursor-pointer" />
       </div>
