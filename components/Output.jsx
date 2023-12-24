@@ -7,12 +7,12 @@ const Output = ({output}) => {
     //console.log(result)
     return (
         <>
-          <h1 className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2">
+          <h1 className="font-mono font-style: italic text-xl text-white bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2">
             Output
           </h1>
           <div
-        className={`w-full h-56 bg-[#1e293b] rounded-md text-white font-normal text-sm overflow-y-auto ${
-          isError ? "text-red-500" : "text-white"
+        className={`w-full h-56 rounded-md text-black bg-white font-normal text-sm overflow-y-auto ${
+          isError ? "text-red-500" : "text-black"
         }`}
         dangerouslySetInnerHTML={{ __html: result }}
       />

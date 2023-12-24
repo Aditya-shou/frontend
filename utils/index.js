@@ -1,6 +1,6 @@
 // utils/codeUtils.js
 import { defineTheme } from "../lib/defineTheme";
-export const handleSubmit = async ( setError, sendCode, code, language, setOutput, socket, room, customInput) => {
+export const handleSubmit = async ( setError, sendCode, code, language, setOutput, socket, room, customInput, toast) => {
   setError(false);
     if(!code || !language){
       setError(true)
@@ -11,6 +11,17 @@ export const handleSubmit = async ( setError, sendCode, code, language, setOutpu
     if (socket) {
       socket.emit('codeUpdate', { code, room });
     }
+    
+      toast.success(`Code Compiled`, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    
 };
 
 export const handleThemeChange = (th, setTheme) => {
@@ -21,6 +32,8 @@ export const handleThemeChange = (th, setTheme) => {
     setTheme(theme);
   } else if (theme.value) {
     defineTheme(theme.value).then((_) => setTheme(theme));
+  }else{
+    setTheme('oceanic-next')
   }
 };
 

@@ -70,20 +70,21 @@ export default function Home() {
           onSelectChange={(sl) => onSelectChange(sl, setLanguage)}
           handleThemeChange={(th) =>handleThemeChange(th, setTheme)}
           theme={theme}
-          handleSubmit={() => handleSubmit(setError, sendCode, code, language, setOutput, socket, room, customInput)}
+          handleSubmit={() => handleSubmit(setError, sendCode, code, language, setOutput, socket, room, customInput, toast)}
           onChange = {onChange}
           initializeWebSocket={()=>initializeWebSocket(socket, setSocket, room, code, toast)}
           room = {room}
           setRoom={setRoom}
         />
+        
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-2 ">
-        <div className='position: sticky overflow-auto'>
+        <div className='position: sticky  mx-3 my-3 rounded bg-[#2c3e50]'>
           <Scrapper/>
         </div>
-        <div className="position:fixed lg:col-span-1 overflow-auto">
-          <div className="position:fixed top-5 lg:my-2 lg:mx-5 ">
+        <div className="position:fixed lg:col-span-1 mx-3 my-3 rounded mr-2 bg-[#2c3e50] ">
+          <div className="position:fixed top-5 lg:my-2 lg:mx-5">
             <FileEditor
               code={code}
               language={language?.value}
@@ -91,10 +92,10 @@ export default function Home() {
               onChange={(action, data) => onChange(action, data, setCode, setCookie, socket, room)}
             />
             <div className='grid grid-cols-2'>
-              <div className="w-full">
+              <div className="w-full h-55">
                 <Output output={output} />
               </div>
-              <div className='w-full mx-4 mt-6 p-2'>
+              <div className='w-full mt-5 p-2'>
                 <Input customInput={customInput} setCustomInput={setCustomInput}/>
               </div> 
             <div>
