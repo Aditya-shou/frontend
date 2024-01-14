@@ -6,7 +6,7 @@ const Output = ({output}) => {
     result = result?.replace(/\n/g, "<br>");
     //console.log(result)
     return (
-        <>
+      <div className="w-full h-55">
           <h1 className="font-mono font-style: italic text-xl text-white bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-2">
             Output
           </h1>
@@ -16,7 +16,7 @@ const Output = ({output}) => {
         }`}
         dangerouslySetInnerHTML={{ __html: result }}
       />
-        </>
+        </div>
       );
 }
 export default Output

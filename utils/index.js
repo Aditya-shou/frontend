@@ -37,16 +37,30 @@ export const handleThemeChange = (th, setTheme) => {
   }
 };
 
-export const onSelectChange = (sl, setLanguage) => {
+export const onSelectChange = (sl, setLanguage, setCode, language) => {
   //console.log('selected Option...', sl);
+  // if(!language){
+  //   setLanguage(sl);
+  //   setCode(sl.code);
+  // }
+  // else if(language.value === sl.value){
+  //   setLanguage(sl);
+  // }
+  // else{
   setLanguage(sl);
+  setCode(sl.code);
+  
+  // console.log(sl)
+  
+   
+  // console.log(language) 
 };
 
 export const onChange = (action, data, setCode, setCookie, socket, room) => {
   switch (action) {
     case 'code': {
       setCode(data);
-      setCookie('code', data, { path: '/', maxAge: 24 * 60 * 60 });
+      setCookie('code',data, { path: '/', maxAge: 24 * 60 * 60 });
       if (socket) {
         socket.emit('codeUpdate', { code: data, room });
       }

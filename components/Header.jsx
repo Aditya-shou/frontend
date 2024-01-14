@@ -8,7 +8,9 @@ import ThemeDropdown from './ThemeDropdown';
 
 
 const Header = ({ onSelectChange, handleThemeChange, theme, handleSubmit,initializeWebSocket,room,setRoom }) => {
+  
   return (
+    <div className='position:fixed w-full top-0 left-0'>
     <nav className='w-full flex md:justify-center justify-between items-center p-2 rounded-t-none rounded-b-lg bg-[#001f3f]'>
       <div className="md:flex-[1.0] flex-initial justify-center items-center">
         <Image src={logo} alt="logo" className="w-32 cursor-pointer" />
@@ -39,13 +41,14 @@ const Header = ({ onSelectChange, handleThemeChange, theme, handleSubmit,initial
           </button>
         </li>
         <li className="py-2 mx-2">
-          <LanguageDropdown onSelectChange={onSelectChange} />
+          <LanguageDropdown onSelectChange={onSelectChange}/>
         </li >
         <li className="py-2 mx-2">
           <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
         </li>
       </ul>
     </nav>
+    </div>
   );
 };
 export default Header;

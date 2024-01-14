@@ -33,7 +33,7 @@ const Scraper = () => {
   };
 
   return (
-    <div>
+    <div className='position: sticky  mx-3 my-3 rounded bg-[#2c3e50]'>
       {isButtonVisible ? (
         <>
           {/* <div {...getRootProps()} style={dropzoneStyle}>
