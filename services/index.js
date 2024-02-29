@@ -19,7 +19,22 @@ export const sendCode = async (Code, Language, customInput) => {
   //console.log(result)
   return result;
 };
+export const getScrapeData = async(url)=>{
+  const formData = {
+    url: url
+  }
 
+  const response = await fetch(`${API}/api/scrape`,{
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  });
+  const result = await response.text();
+  //console.log(result)
+  return result;
+}
 export const initializeWebSocket = (socket, setSocket, room, code, toast) => {
   if (socket) {
     socket.disconnect();
